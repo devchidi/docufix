@@ -19,6 +19,7 @@
             href="https://fonts.googleapis.com/css?family=Ubuntu:400,700&display=swap"
             rel="stylesheet"
         />
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <link rel="stylesheet" type="text/css" href="wysiwyg.css">
         <link rel="stylesheet" href="/nav-footer.css">
@@ -131,6 +132,9 @@
         textarea{
             width: 100% !important;
         } */
+        body{
+            font-family: Ubuntu,sans-serif;
+        }
         a {
     color: white;
   }
@@ -196,6 +200,20 @@
 .shareBtn {
     display: none;
 }
+.rstbtn{
+    width: 80px;
+    border: none;
+    color: #ffffff;
+    background-color: gray;
+    height: 30px;
+    border-radius: 4px;
+}
+.rstbtn:hover,.rstbtn:active{
+    background-color: #333333;
+}
+.rvmbtn:active{
+    background-color:#3D9BDA !important;
+}
 /* .navbar{
    position:fixed;
    width:100%;
@@ -209,14 +227,17 @@
 
     </style>
        
-        <body style="background-color:  white; font-family: Ubuntu;"   onload ="document.getElementById('id01').style.display='block'">
+        <body style="background-color:  white; font-family: Ubuntu;"   onload ="view()">
 
 <div class="w3-container">
   <div id="id01" class="w3-modal">
     <div class="w3-modal-content" style="border-radius: 4px;">
       <div class="w3-container">
         <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        
+        <div class="form-group pl-3" id="checkbox">
+            <label for="modalSetting" class="font-weight-bold"><input type="checkbox" name="modal" id="modalSetting" onchange="visibility()"> Check this box to stop getting this alert</label>
+            
+          </div>
         <h2 style="font-weight: bolder;">NOTE:</h2>
         <p>Docufix Duplicates Remover only supports 'docx', 'pdf', 'txt', 'csv', 'json', 'xml' file format for <strong>uploading</strong></p>
       <p>Upload the document and specfiy the delimter in which they are seperated in i.e ',' </p>
@@ -289,6 +310,7 @@
         </div>
     </header>
         <div class="container mt-5" style="min-height: 100vh">
+            <div class="btn btn-secondary btn-sm float-right bg-secondary" style="cursor: pointer"  onclick="instruction()">Instructions</div>
             <h3 class=" font-weight-bold">Remove Duplicates from Documents</h3>
             <h2 class="text-center text-light p-3 mt-5 " style="background-color:rgba(61, 155, 218, 0.4);">
                 <span class="text-light mr-md-5 pr-md-5 active1"><a href="#" id="fileBtn" class="active1 pb-1"
@@ -382,10 +404,13 @@
                     </div>
                 </div>-->
                 <div class="text-center m-5" >
-                    <button style="background-color:rgba(61, 155, 218, 0.4);color: white"  id="removeDuplicate" value="compare" class="btn font-weight-bold"
-                          type="submit"> <img class="compare-img" src="https://res.cloudinary.com/dtbjhs8a6/image/upload/v1571193103/samples/figma%20career-list/lario/butfaguuckar9dl0i1ug.png" width="23" height="23" style="margin-right: 10px;">Remove Duplicates</button
+                    <button style="background-color:rgba(61, 155, 218, 0.4);color: white"  id="removeDuplicate" value="compare" class="btn font-weight-bold rvmbtn"
+                          type="submit" onclick="getConfirmation()"><img class="compare-img" src="https://res.cloudinary.com/dtbjhs8a6/image/upload/v1571193103/samples/figma%20career-list/lario/butfaguuckar9dl0i1ug.png" width="23" height="23" style="margin-right: 10px;">Remove Duplicates</button
                     >
+                    <input type="button" name="clearText" id="clearText" value="Reset" class="rstbtn" data-toggle="button" aria-pressed="true" >
                 </div>
+
+      
                 <div>
                         <!--<table class="table table-striped">
                                 <thead>
@@ -501,11 +526,14 @@
                   </section>
                 </div>
               </footer>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
        <script src="https://kit.fontawesome.com/7967e81f77.js" crossorigin="anonymous"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
        <script>
+           
             document
                 .getElementById("fileBtn")
                 .addEventListener("click", showFile);
@@ -519,12 +547,40 @@
                 document.getElementById("fileBtn").classList.add("active1");
                 document.getElementById("textBtn").classList.remove("active1");
             }
+            function getConfirmation(){
+
+                var retVal = confirm("Do You want to remove Duplicates?");
+                if(retVal == true){
+                    return  true;
+                }else{
+                    return false;
+                }
+            }
+            document.getElementById("clearText").addEventListener("click", function () {
+		    document.getElementById("textareaBefore").value = "";
+		    document.getElementById("textareaDifferences").value = "";
+		    document.getElementById("textareaBefore").focus();
+	        });	
+	
+	        var textBox = document.getElementById("newCode");
+	        textBox.onfocus = function() {
+		    textBox.select();
+		    textBox.onmouseup = function() {
+			textBox.onmouseup = null;
+			return false;
+		    };
+	       };
+	
+        
             function showtext() {
                 document.getElementById("text").style.display = "block";
                 document.getElementById("file").style.display = "none";
                 document.getElementById("fileBtn").classList.remove("active1");
                 document.getElementById("textBtn").classList.add("active1");
+
             }
+            
+      
         </script>
         <script src="fileDelimiter.js"></script>
         <script src = "wysiwyg.js"></script>
@@ -1126,6 +1182,58 @@
                     label.textContent = e.target.files[0].name;
                 }
             });
+            function visibility(){
+     let val = document.getElementById("modalSetting");
+     let valBool = document.getElementById("modalSetting");
+     check = valBool;
+      if(valBool.checked){
+        valBool.checked = true;
+        localStorage.setItem('value1', valBool.checked);
+        setTimeout(() => {
+        
+            document.getElementById("id01").style.display = "none";
+      
+            }, 2000);
+      } else{
+        valBool.checked = false;
+        localStorage.setItem('value1', valBool.checked);
+        setTimeout(() => {
+        
+        document.getElementById("id01").style.display = "block";
+  
+        }, 2000);
+      
+      }
+    
+      
+    }
+     function view(){
+    let value = localStorage.getItem('value1');
+    let val = document.getElementById("modalSetting");
+    if(value !== null && value === value){
+      val.check = value;
+      if(val.check === value){
+      document.getElementById("id01").style.display = "none";
+    } 
+    } else if(value === false){
+      document.getElementById("id01").style.display = "block";
+    } else{
+      document.getElementById("id01").style.display = "block";
+    }
+    
+    
+    
+     
+   
+}
+function instruction(){
+  let value = localStorage.getItem('value1');
+  let val = document.getElementById("modalSetting").checked;
+  let valBool = document.getElementById("modalSetting");
+  document.getElementById("modalSetting").checked = value;
+  document.getElementById("id01").style.display = "block";
+  document.getElementById("checkbox").style.display = "none";
+  }
     </script>
       
     </body>
